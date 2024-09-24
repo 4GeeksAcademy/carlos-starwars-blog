@@ -6,7 +6,7 @@ import { Context } from "../store/appContext";
 import "../../styles/demo.css";
 
 export const Demo = () => {
-	const { store, actions } = useContext(Context);
+	const { store, actions } = useContext(Context); //esto lo toman dek flux ==> flux.store
 
 	return (
 		<div className="container">
