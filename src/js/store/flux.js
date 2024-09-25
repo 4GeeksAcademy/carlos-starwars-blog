@@ -22,6 +22,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			characters: [],       //Le digo dónde queremos guardar los personajes
 			planets: [],
 			favoritos: [],
+			vehicles: [],
 
 		},
 		actions: {
@@ -54,36 +55,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 						fullPlanets.push(dataPlanets.result)
 					}
 					setStore({planets: fullPlanets})
-				
-				// fetch("https://www.swapi.tech/api/planets")
-				// 	.then(res => res.json())
-				// 	.then(data => setStore({planets: data.results}))
-				// 	.catch(err => console.error(err))
+			
 			},
 
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+			loadVehicles: async() => {
+				const response = await fetch(`${getStore().urlBase}/vehicles/`)
+				const vehiclesData = await response.json()
+				const fullVehicles = []
+
+					for(let item of vehiclesData.results) {
+						const responseVehicles = await fetch(item.url)
+						const dataVehicles = await responseVehicles.json()
+						fullVehicles.push(dataVehicles.result)
+					}
+					setStore({vehicles: fullVehicles})
 			},
 
-			addFavoritos: (oneMoreFavorite) => {
+			addFavoritos: (favorite) => {
 				const store = getStore();
 					setStore({
-						favoritos: [...store.favoritos, oneMoreFavorite]
+						favoritos: [...store.favoritos, favorite]
 					});
+					console.log(favorite)
 			},
 
-			sumarFavoritos: () => {
-				const [counter, setCounter] = useState(0);
-
-				const sumar = () => {
-				setCounter(counter + 1);
-				}
-				const restar = () => {
-				setCounter(counter - 1);
-				}
+			deleteFavorite: (index) => {
+				const store = getStore();
+				const updateFavorites = store.favoritos.filter((_, i) => i !== index);
+				setStore({favoritos: updateFavorites});
 			},
+
 
 			changeColor: (index, color) => {
 				//get the store

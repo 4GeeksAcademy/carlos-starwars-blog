@@ -26,7 +26,11 @@ const Characters = () => {
 								<div className="d-flex justify-content-between">
 									<button className="learnMore btn btn-primary">Learn more</button>
 									<button className="favoritos btn">
-										<i className="fa-regular fa-heart" onClick={() => actions.addFavoritos(item.uid)}></i>
+										<i className="fa-regular fa-heart" 
+											onClick={() => 
+												actions.addFavoritos( {name: item.properties.name, uid: item.uid})}
+												>
+										</i>
 									</button>
 								</div>
 							</div>

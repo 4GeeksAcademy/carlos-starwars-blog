@@ -4,6 +4,7 @@ import { useContext } from "react"; //importamos el hook useContext
 import { Context } from "../store/appContext";
 import Characters from "../component/characters.js"
 import Planets from "../component/planet.js";
+import Vehicles from "../component/vehicles.js";
 
 export const Home = () => { // se ponen en llaves y no es paréntesis para usar JS
 	
@@ -18,6 +19,9 @@ export const Home = () => { // se ponen en llaves y no es paréntesis para usar 
 			</div>
 			<div className="text-center mt-5">
 				<Planets />
+			</div>
+			<div className="text-center mt-5">
+				<Vehicles />
 			</div>
 		</>
 	)
