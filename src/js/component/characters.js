@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Context } from "../store/appContext"; 
 import { useContext } from "react"; //importamos el hook useContext
+import { useNavigate } from "react-router";
 
 
 const Characters = () => {
     
     const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
     return (
         <div className="container text-center mt-5">
@@ -24,7 +26,9 @@ const Characters = () => {
 									<p className="card-text fl">Eye color: {item.properties.eye_color}:</p>
 								</div>
 								<div className="d-flex justify-content-between">
-									<button className="learnMore btn btn-primary">Learn more</button>
+									<button className="learnMore btn btn-primary" onClick={
+										() => {navigate("/details/")}
+									}>Learn more</button>
 									<button className="favoritos btn">
 										<i className="fa-regular fa-heart" 
 											onClick={() => 
