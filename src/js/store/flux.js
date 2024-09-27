@@ -23,6 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			planets: [],
 			favoritos: [],
 			vehicles: [],
+			charactersDetails: [],
 
 		},
 		actions: {
@@ -55,7 +56,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						fullPlanets.push(dataPlanets.result)
 					}
 					setStore({planets: fullPlanets})
-			
 			},
 
 			loadVehicles: async() => {
@@ -83,6 +83,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				const updateFavorites = store.favoritos.filter((_, i) => i !== index);
 				setStore({favoritos: updateFavorites});
+			},
+
+			loadCharactersDetails: async() => {
+				const response = await fetch()
 			},
 
 
