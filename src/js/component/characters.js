@@ -27,7 +27,7 @@ const Characters = () => {
 								</div>
 								<div className="d-flex justify-content-between">
 									<button className="learnMore btn btn-primary" onClick={
-										() => {navigate("/details/")}
+										() => {navigate(`/characterDetails/${item.uid}`)}
 									}>Learn more</button>
 									<button className="favoritos btn">
 										<i className="fa-regular fa-heart" 

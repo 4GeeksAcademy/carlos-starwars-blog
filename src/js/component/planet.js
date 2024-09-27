@@ -1,10 +1,12 @@
 import React from "react";
 import { Context } from "../store/appContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router";
 
 const Planets = () => {
 
     const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
 
     return (
         <div className="text-center mt-5">
@@ -18,7 +20,10 @@ const Planets = () => {
                             <p className="card-text fl">Population: {planets.properties.population}</p>
                             <p className="card-text fl">Terrain: {planets.properties.terrain}</p>
                             <div className="d-flex justify-content-between">
-                                <button className="learnMore btn btn-primary">Learn more!</button>
+                                <button className="learnMore btn btn-primary"
+                                    onClick={
+                                        () => {navigate(`/planetDetails/${planets.uid}`)}
+                                    }>Learn more!</button>
                                 <button className="favoritos btn">
                                     <i className="fa-regular fa-heart" 
                                         onClick={() => actions.addFavoritos( {name: planets.properties.name, uid: planets.uid} )}>

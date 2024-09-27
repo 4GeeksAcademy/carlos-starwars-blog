@@ -1,11 +1,13 @@
 import React from "react";
 import { Context } from "../store/appContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router";
 
 
 const Vehicles = () => {
 
     const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
     return (
         <div className="container text-center mt-5">
@@ -25,7 +27,11 @@ const Vehicles = () => {
 									<p className="card-text fl">Crew: {item.properties.crew}:</p>
 								</div>
 								<div className="d-flex justify-content-between">
-									<button className="learnMore btn btn-primary">Learn more</button>
+									<button className="learnMore btn btn-primary"
+										onClick={
+											() => {navigate(`/vehicleDetails/${item.uid}`)}
+										}
+									>Learn more</button>
 									<button className="favoritos btn">
 										<i className="fa-regular fa-heart" onClick={() => actions.addFavoritos({ name: item.properties.name, uid: item.uid})}></i>
 									</button>
