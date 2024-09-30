@@ -13,27 +13,27 @@ const Characters = () => {
         <div className="container text-center mt-5">
 				<h1 className="text-danger">Characters</h1>
 				<div className="container overflow-auto d-flex flex-nowrap" style={{ overflowX: "scroll" }}>
-					{store.characters.map((item) => {
+					{store.characters == null ? <h1>Cargando personajes...</h1> : 
+					store.characters == false ? <h1 className="text-danger">Ocurrió un error al cargar los personajes</h1> : 
+					store.characters && store.characters.length > 0 && store.characters.map((item) => {
 						return (
-							<div className="card mx-2" style={{minWidth: "300px"}} key={item.uid}>
+							<div className="card mx-2" style={{minWidth: "300px"}} key={item.url.split("/")[5]}>
 								<div>
-									<img src={`https://starwars-visualguide.com/assets/img/characters/${item.uid}.jpg`} className="card-img-top" alt="..."  style={{ objectFit: "cover" }}/>
+									<img src={`https://starwars-visualguide.com/assets/img/characters/${item.url.split("/")[5]}.jpg`} className="card-img-top" alt="..."  style={{ objectFit: "cover" }}/>
 								</div>
 								<div className="card-body">
-									<h5 className="card-title">Name: {item.properties.name}</h5>
-									<p className="card-text fl">Gender: {item.properties.gender}:</p>
-									<p className="card-text fl">Hair color: {item.properties.hair_color}:</p>
-									<p className="card-text fl">Eye color: {item.properties.eye_color}:</p>
+									<h5 className="card-title">Name: {item.name}</h5>
+									<p className="card-text fl">Gender: {item.gender}:</p>
+									<p className="card-text fl">Hair color: {item.hair_color}:</p>
+									<p className="card-text fl">Eye color: {item.eye_color}:</p>
 								</div>
 								<div className="d-flex justify-content-between">
 									<button className="learnMore btn btn-primary" onClick={
-										() => {navigate(`/characterDetails/${item.uid}`)}
+										() => {navigate(`/characterDetails/${item.url.split("/")[5]}`)}
 									}>Learn more</button>
-									<button className="favoritos btn">
-										<i className="fa-regular fa-heart" 
-											onClick={() => 
-												actions.addFavoritos( {name: item.properties.name, uid: item.uid})}
-												>
+									<button className={`favoritos btn ${actions.isFavorite({name: item.name, uid: item.url.split("/")[5], type: "characterDetails"}) && "btn-danger"} `}
+											onClick={() => actions.addFavoritos( {name: item.name, uid: item.url.split("/")[5], type: "characterDetails"})}>
+										<i className={`text-warning ${actions.isFavorite({name: item.name, uid: item.url.split("/")[5], type: "characterDetails"}) ? "fa-solid" : "fa-regular"} fa-heart`}>
 										</i>
 									</button>
 								</div>

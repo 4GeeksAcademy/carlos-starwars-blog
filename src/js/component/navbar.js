@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Home } from "../views/home";
 import { useContext } from "react";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
 	
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
 	return (
 		<nav className="navbar navbar-light bg-light mb-3">
@@ -24,15 +26,18 @@ export const Navbar = () => {
 								style={{color: "white", background: "gray"}}>{store.favoritos.length}</p>
 						</button>
 												
-						<ul className="dropdown-menu">
+						<ul className="dropdown-menu dropdown-menu-end">
 							{store.favoritos.length == 0 ? (
 									<p className="d-flex flex justify-content-center text-secondary p-1">Favorites empty</p>
 							) : (
 								store.favoritos.map((favorite, index) => (
 									<li key={index} className="dropdown-item favoriteName d-flex justify-content-between align-item-center border">
-										<a className="dropdown-item">{favorite.name}</a>
-          								<i className="delete fa-solid fa-trash-can d-flex flex p-2"
-											onClick={() => actions.deleteFavorite(index) }>
+										<span className="dropdown-item" role="button" onClick={() => navigate(`/${favorite.type}/${favorite.uid}`)}>{favorite.name}</span>
+          								<i className="delete fa-solid fa-trash-can d-flex flex p-2" role="button"
+											onClick={(e) => {
+												e.stopPropagation()
+												actions.deleteFavorite({name: favorite.name})
+												}}>
 										</i>
 									</li>
 								))

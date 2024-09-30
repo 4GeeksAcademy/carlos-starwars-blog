@@ -21,17 +21,19 @@ const CharacterDetails = () => {
     })
 
     useEffect(()=> {
-        const charactersDetails = store.characters.find(character => character.uid === uid);
+        if(store.characters && store.characters.length > 0 && uid) {
+        const charactersDetails = store.characters.find(character => character.url.split("/")[5] === uid);
         if (charactersDetails){
             setDetailsCharacter({
-                name: charactersDetails.properties.name,
-                birth_year: charactersDetails.properties.birth_year,
-                gender: charactersDetails.properties.gender,
-                height: charactersDetails.properties.height,
-                skin_color: charactersDetails.properties.skin_color,
-                eye_color: charactersDetails.properties.eye_color,
+                name: charactersDetails.name,
+                birth_year: charactersDetails.birth_year,
+                gender: charactersDetails.gender,
+                height: charactersDetails.height,
+                skin_color: charactersDetails.skin_color,
+                eye_color: charactersDetails.eye_color,
                 description: charactersDetails.description
             });
+        }
         }
     }, [store.characters, uid]);
     

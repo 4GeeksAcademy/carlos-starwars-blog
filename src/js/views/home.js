@@ -8,9 +8,7 @@ import Vehicles from "../component/vehicles.js";
 
 export const Home = () => { // se ponen en llaves y no es paréntesis para usar JS
 	
-	const { store, actions } = useContext(Context); // Aquí se ejecuta el hook que devuelve el objeto flux
-	
-	addEventListener("click", (addFavorites) => {})		
+	const { store, actions } = useContext(Context); // Aquí se ejecuta el hook que devuelve el objeto flux	
 
 	return(
 		<>

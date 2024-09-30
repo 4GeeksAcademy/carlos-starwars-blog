@@ -20,17 +20,18 @@ const VehiclesDetails = () => {
     });
 
     useEffect(()=>{
-        const vehiclesDetail = store.vehicles.find(vehicle => vehicle.uid === uid)
+        if(store.vehicles && store.vehicles.length > 0 && uid) {
+        const vehiclesDetail = store.vehicles.find(vehicle => vehicle.url.split("/")[5] === uid)
         if(vehiclesDetail){
             setDetailVehicles({
-                name: vehiclesDetail.properties.name,
-                manufacturer: vehiclesDetail.properties.manufacturer, 
-                model: vehiclesDetail.properties.model,
-                length: vehiclesDetail.properties.length,
-                cargo_capacity: vehiclesDetail.properties.cargo_capacity,
+                name: vehiclesDetail.name,
+                manufacturer: vehiclesDetail.manufacturer, 
+                model: vehiclesDetail.model,
+                length: vehiclesDetail.length,
+                cargo_capacity: vehiclesDetail.cargo_capacity,
                 description: vehiclesDetail.description,
             });
-        }
+        }}
     }, [store.vehicles, uid])
 
     return(

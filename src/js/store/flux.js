@@ -18,11 +18,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			], 
-			urlBase: "https://www.swapi.tech/api",
-			characters: [],       //Le digo dónde queremos guardar los personajes
-			planets: [],
+			
+			urlBase: "https://swapi.dev/api",
+			characters: null,       //Le digo dónde queremos guardar los personajes
+			planets: null,
 			favoritos: [],
-			vehicles: [],
+			vehicles: null,
 			charactersDetails: [],
 
 		},
@@ -35,65 +36,62 @@ const getState = ({ getStore, getActions, setStore }) => {
 			loadCharacters: async() => {
 				const response = await fetch(`${getStore().urlBase}/people`)
 				const charactersData = await response.json()
-				const fullCharacters = []	
-
-					for(let item of charactersData.results) {
-						const reponseCharacter = await fetch(item.url)
-						const dataCharacter = await reponseCharacter.json()
-						fullCharacters.push(dataCharacter.result)
-					}
-					setStore({characters: fullCharacters})
+				if(response.ok) {
+					setStore({characters: charactersData.results})
+				} else {
+					setStore({favoritos: false})
+				}
 			},
 
 			loadPlanets: async() => {
 				const response = await fetch(`${getStore().urlBase}/planets`)
 				const planetsData = await response.json()
-				const fullPlanets = []	
-
-					for(let item of planetsData.results) {
-						const reponsePlanets = await fetch(item.url)
-						const dataPlanets = await reponsePlanets.json()
-						fullPlanets.push(dataPlanets.result)
-					}
-					setStore({planets: fullPlanets})
+				if(response.ok) {
+					setStore({planets: planetsData.results})
+				} else {
+					setStore({favoritos: false})
+				}
 			},
 
 			loadVehicles: async() => {
 				const response = await fetch(`${getStore().urlBase}/vehicles/`)
 				const vehiclesData = await response.json()
-				const fullVehicles = []
-
-					for(let item of vehiclesData.results) {
-						const responseVehicles = await fetch(item.url)
-						const dataVehicles = await responseVehicles.json()
-						fullVehicles.push(dataVehicles.result)
-					}
-					setStore({vehicles: fullVehicles})
+				if(response.ok) {
+					setStore({vehicles: vehiclesData.results})
+				} else {
+					setStore({favoritos: false})
+				}
 			},
 
 			addFavoritos: (favorite) => {
 				const store = getStore();
+				const actions = getActions();
+				const result = actions.isFavorite(favorite)
+				if(result) {
+					actions.deleteFavorite(favorite)
+				} else {
 					setStore({
 						favoritos: [...store.favoritos, favorite]
 					});
-					console.log(favorite)
+				}
+					console.log(favorite);
 			},
 
-			deleteFavorite: (index) => {
+			deleteFavorite: (favorite) => {
 				const store = getStore();
-				const updateFavorites = store.favoritos.filter((_, i) => i !== index);
+				const updateFavorites = store.favoritos.filter(item => favorite.name !== item.name);
 				setStore({favoritos: updateFavorites});
 			},
 
-			loadCharactersDetails: async() => {
-				const response = await fetch()
+			isFavorite: (favorite)  => {
+				const store = getStore();
+				const result = store.favoritos.some(item => favorite.uid == item.uid && favorite.type == item.type)
+				return result
 			},
-
 
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();
-
 				//we have to loop the entire demo array to look for the respective index
 				//and change its color
 				const demo = store.demo.map((elm, i) => {

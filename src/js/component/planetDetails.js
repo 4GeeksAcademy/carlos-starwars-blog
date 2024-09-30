@@ -21,18 +21,19 @@ const PlanetDetails = () => {
     })
 
     useEffect(()=> {
-        const planetDetails = store.planets.find(planet => planet.uid === uid)
+        if(store.planets && store.planets.length > 0 && uid) {
+        const planetDetails = store.planets.find(planet => planet.url.split("/")[5] === uid)
         if (planetDetails){
             setDetailsPlanet({
-                name: planetDetails.properties.name,
-                diameter: planetDetails.properties.diameter,
-                terrain: planetDetails.properties.terrain,
-                population: planetDetails.properties.population,
-                terrain: planetDetails.properties.terrain,
-                gravity: planetDetails.properties.gravity,
+                name: planetDetails.name,
+                diameter: planetDetails.diameter,
+                terrain: planetDetails.terrain,
+                population: planetDetails.population,
+                terrain: planetDetails.terrain,
+                gravity: planetDetails.gravity,
                 description: planetDetails.description,
             });
-        }
+        }}
     }, [store.planets, uid]);
         
     return(
@@ -40,7 +41,7 @@ const PlanetDetails = () => {
                     <div className="m-1" key={uid}>
                         <div className="infoDetails d-flex flex-nowrap col-12">
                             <div className="image justify-content-center col-6">
-                                <img src={`https://starwars-visualguide.com/assets/img/planets/${uid}.jpg`} alt="Image.jpg" className="justify-content-center" style={{ objectFit: "cover", maxWidth: "100%" }} />
+                                <img src={`https://starwars-visualguide.com/assets/img/planets/${uid}.jpg`} onError={(e) => e.target.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg"} alt="Image.jpg" className="justify-content-center" style={{ objectFit: "cover", maxWidth: "100%" }} />
                             </div>
                             <div className="infoDetails text-center col-6">
                                 <h3 className="mainName">{detailsPlanet.name}</h3>
